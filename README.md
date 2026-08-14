@@ -1,6 +1,6 @@
 # isorb-hp
 
-Minimal control automation for an Anton-Paar iSorb HP device.
+Control automation for an Anton-Paar iSorb HP device.
 
 ## Dependencies
 

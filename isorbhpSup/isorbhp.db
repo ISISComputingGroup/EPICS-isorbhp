@@ -1,0 +1,70 @@
+record(bo, "$(P)SIM")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(VAL, "$(RECSIM=0)")
+    field(PINI, "YES")
+}
+
+record(bo, "$(P)DISABLE")
+{
+    field(DESC, "Disable comms")
+    field(PINI, "YES")
+    field(VAL, "$(DISABLE=0)")
+    field(OMSL, "supervisory")
+    field(ZNAM, "COMMS ENABLED")
+    field(ONAM, "COMMS DISABLED")
+}
+
+record(bi, "$(P)PAUSED") {
+    field(SCAN, "5 second")
+	field(DTYP, "stream")
+	field(INP, "@isorbhp.proto isPaused($(IPADDR)) $(PORT)")
+	field(ZNAM, "Analysis Running")
+	field(ONAM, "Analysis Paused")
+}
+
+record(bo, "$(P)PAUSED:SP") {
+    field(DTYP, "stream")
+	field(OUT, "@isorbhp.proto setPaused($(IPADDR)) $(PORT)")
+	field(ZNAM, "Analysis Running")
+	field(ONAM, "Analysis Paused")
+}
+
+record(stringin, "$(P)EQ_STARTED") {
+    field(SCAN, "5 second")
+	field(DTYP, "stream")
+	field(INP, "@isorbhp.proto eqStarted($(IPADDR)) $(PORT)")
+}
+
+record(ai, "$(P)PRESSURE:MANIFOLD") {
+    field(SCAN, "5 second")
+	field(DTYP, "stream")
+	field(INP, "@isorbhp.proto manifoldPressure($(IPADDR),$(P)PRESSURE:MANIFOLD:TS) $(PORT)")
+	field(EGU, "bar")
+	field(PREC, "5")
+}
+
+record(stringin, "$(P)PRESSURE:MANIFOLD:TS") {}
+
+record(ai, "$(P)PRESSURE:CELL1") {
+    field(SCAN, "5 second")
+	field(DTYP, "stream")
+	field(INP, "@isorbhp.proto cell1Pressure($(IPADDR),$(P)PRESSURE:CELL1:TS) $(PORT)")
+	field(EGU, "bar")
+	field(PREC, "5")
+}
+
+record(stringin, "$(P)PRESSURE:CELL1:TS") {}
+
+record(ai, "$(P)PRESSURE:CELL2") {
+    field(SCAN, "5 second")
+	field(DTYP, "stream")
+	field(INP, "@isorbhp.proto cell2Pressure($(IPADDR),$(P)PRESSURE:CELL2:TS) $(PORT)")
+	field(EGU, "bar")
+	field(PREC, "5")
+}
+
+record(stringin, "$(P)PRESSURE:CELL2:TS") {}
