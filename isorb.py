@@ -73,17 +73,51 @@ def equilibration_started() -> str:
 
 
 @fastapi_app.get("/manifold_pressure")
-def manifold_pressure() -> float:
+def manifold_pressure() -> tuple[float, str]:
     log_file = find_latest_log_file()
     log_file_contents = log_file.read_text(encoding="cp1252")
 
-    most_recent_manifold_pressure = -1
+    pressure = -1
+    timestamp = "Never"
 
     for log_line in log_file_contents.splitlines():
         if "Reading pressure with precision on Manifold" in log_line:
-            most_recent_manifold_pressure = float(log_line.split(": ")[1][:-1])
+            pressure = float(log_line.split(": ")[1].strip('"'))
+            timestamp = log_line[1 : 1 + len("13/08/2026 15:29:40")]
 
-    return most_recent_manifold_pressure
+    return pressure, timestamp
+
+
+@fastapi_app.get("/cell1_pressure")
+def cell1_pressure() -> tuple[float, str]:
+    log_file = find_latest_log_file()
+    log_file_contents = log_file.read_text(encoding="cp1252")
+
+    pressure = -1
+    timestamp = "Never"
+
+    for log_line in log_file_contents.splitlines():
+        if "Reading pressure with precision on Cell 1" in log_line:
+            pressure = float(log_line.split(": ")[1].strip('"'))
+            timestamp = log_line[1 : 1 + len("13/08/2026 15:29:40")]
+
+    return pressure, timestamp
+
+
+@fastapi_app.get("/cell2_pressure")
+def cell2_pressure() -> tuple[float, str]:
+    log_file = find_latest_log_file()
+    log_file_contents = log_file.read_text(encoding="cp1252")
+
+    pressure = -1
+    timestamp = "Never"
+
+    for log_line in log_file_contents.splitlines():
+        if "Reading pressure with precision on Cell 2" in log_line:
+            pressure = float(log_line.split(": ")[1].strip('"'))
+            timestamp = log_line[1 : 1 + len("13/08/2026 15:29:40")]
+
+    return pressure, timestamp
 
 
 @fastapi_app.get("/is_paused")
