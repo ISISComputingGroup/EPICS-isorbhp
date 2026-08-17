@@ -151,17 +151,5 @@ def resume_analysis() -> None:
     window.menu_select(MENU_RESUME_ANALYSIS, exact=True)
 
 
-def main() -> None:
-
-    while True:
-        cmd = input().strip()
-        if cmd == "exit":
-            return
-        elif cmd == "pause":
-            pause_analysis()
-        elif cmd == "resume":
-            resume_analysis()
-
-
 if __name__ == "__main__":
     uvicorn.run(fastapi_app, host="0.0.0.0", port=8000)
