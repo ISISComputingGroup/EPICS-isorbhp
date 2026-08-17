@@ -1,0 +1,49 @@
+OutTerminator = CR LF CR LF;
+
+ReadTimeout = 500;
+ReplyTimeout = 500;
+WriteTimeout = 500;
+LockTimeout = 5000;
+
+isPaused {
+    out "GET /is_paused HTTP/1.1\r\nHost: \$1:8000\r\nAccept: */*";
+    in "HTTP/1.1 200 OK%*+/.*\r\n\r\n/%{false|true}"; 
+}
+
+setPaused {
+    ExtraInput = Ignore;
+    out "POST /%{resume_analysis|pause_analysis} HTTP/1.1\r\nHost: \$1:8000\r\nAccept: */*";
+    in "HTTP/1.1 200 OK%*+/.*\r\n\r\n/"; 
+}
+
+eqStarted {
+    out "GET /equilibration_started HTTP/1.1\r\nHost: \$1:8000\r\nAccept: */*";
+	# Parse as:
+	# - HTTP 1.1 OK
+	# - Any number of headers
+	# - \r\n\r\n marks end of headers
+	# - \"%/[0-9a-zA-Z: \/]*/\" is a regex that matches a timestamp in a double-quoted string
+    in "HTTP/1.1 200 OK%*+/.*\r\n\r\n/\"%/[0-9a-zA-Z: \/]*/\""; 
+}
+
+manifoldPressure {
+    out "GET /manifold_pressure HTTP/1.1\r\nHost: \$1:8000\r\nAccept: */*";
+	# Parse as:
+	# - HTTP 1.1 OK
+	# - Any number of headers
+	# - \r\n\r\n marks end of headers
+	# - Regex that matches a string like [1.2345,"1970/01/01 12:34:56"]
+	#   * First argument is matched using %f
+	#   * Second argument is record-redirected to \$2 and matched using a regex
+    in "HTTP/1.1 200 OK%*+/.*\r\n\r\n/[%f,\"%(\$2)/[0-9a-zA-Z: \/]*/\"]"; 
+}
+
+cell1Pressure {
+    out "GET /cell1_pressure HTTP/1.1\r\nHost: \$1:8000\r\nAccept: */*";
+    in "HTTP/1.1 200 OK%*+/.*\r\n\r\n/[%f,\"%(\$2)/[0-9a-zA-Z: \/]*/\"]"; 
+}
+
+cell2Pressure {
+    out "GET /cell2_pressure HTTP/1.1\r\nHost: \$1:8000\r\nAccept: */*";
+    in "HTTP/1.1 200 OK%*+/.*\r\n\r\n/[%f,\"%(\$2)/[0-9a-zA-Z: \/]*/\"]"; 
+}
