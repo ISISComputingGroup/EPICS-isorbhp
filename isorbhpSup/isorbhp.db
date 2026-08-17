@@ -19,52 +19,90 @@ record(bo, "$(P)DISABLE")
 }
 
 record(bi, "$(P)PAUSED") {
+    field(DESC, "Device status")
     field(SCAN, "5 second")
 	field(DTYP, "stream")
 	field(INP, "@isorbhp.proto isPaused($(IPADDR)) $(PORT)")
 	field(ZNAM, "Analysis Running")
 	field(ONAM, "Analysis Paused")
+	info(archive, "VAL")
+	info(interest, "HIGH")
+	field(SDIS, "$(P)DISABLE")
 }
 
 record(bo, "$(P)PAUSED:SP") {
+    field(DESC, "Device status setpoint")
     field(DTYP, "stream")
 	field(OUT, "@isorbhp.proto setPaused($(IPADDR)) $(PORT)")
 	field(ZNAM, "Analysis Running")
 	field(ONAM, "Analysis Paused")
+	info(archive, "VAL")
+	field(SDIS, "$(P)DISABLE")
 }
 
 record(stringin, "$(P)EQ_STARTED") {
+    field(DESC, "Equilibration started timestamp")
     field(SCAN, "5 second")
 	field(DTYP, "stream")
 	field(INP, "@isorbhp.proto eqStarted($(IPADDR)) $(PORT)")
+	info(archive, "VAL")
+	info(interest, "HIGH")
+	field(SDIS, "$(P)DISABLE")
 }
 
 record(ai, "$(P)PRESSURE:MANIFOLD") {
+    field(DESC, "Manifold Pressure")
     field(SCAN, "5 second")
 	field(DTYP, "stream")
 	field(INP, "@isorbhp.proto manifoldPressure($(IPADDR),$(P)PRESSURE:MANIFOLD:TS) $(PORT)")
 	field(EGU, "bar")
 	field(PREC, "5")
+	field(LOLO, "0")
+	field(LLSV, "INVALID")
+	info(archive, "VAL")
+	info(interest, "HIGH")
+	field(SDIS, "$(P)DISABLE")
 }
 
-record(stringin, "$(P)PRESSURE:MANIFOLD:TS") {}
+record(stringin, "$(P)PRESSURE:MANIFOLD:TS") {
+    field(DESC, "Manifold Pressure timestamp")
+	info(archive, "VAL")
+}
 
 record(ai, "$(P)PRESSURE:CELL1") {
+    field(DESC, "Cell 1 Pressure")
     field(SCAN, "5 second")
 	field(DTYP, "stream")
 	field(INP, "@isorbhp.proto cell1Pressure($(IPADDR),$(P)PRESSURE:CELL1:TS) $(PORT)")
 	field(EGU, "bar")
 	field(PREC, "5")
+	field(LOLO, "0")
+	field(LLSV, "INVALID")
+	info(archive, "VAL")
+	info(interest, "HIGH")
+	field(SDIS, "$(P)DISABLE")
 }
 
-record(stringin, "$(P)PRESSURE:CELL1:TS") {}
+record(stringin, "$(P)PRESSURE:CELL1:TS") {
+    field(DESC, "Cell 1 Pressure timestamp")
+	info(archive, "VAL")
+}
 
 record(ai, "$(P)PRESSURE:CELL2") {
+    field(DESC, "Cell 2 Pressure")
     field(SCAN, "5 second")
 	field(DTYP, "stream")
 	field(INP, "@isorbhp.proto cell2Pressure($(IPADDR),$(P)PRESSURE:CELL2:TS) $(PORT)")
 	field(EGU, "bar")
 	field(PREC, "5")
+	field(LOLO, "0")
+	field(LLSV, "INVALID")
+	info(archive, "VAL")
+	info(interest, "HIGH")
+	field(SDIS, "$(P)DISABLE")
 }
 
-record(stringin, "$(P)PRESSURE:CELL2:TS") {}
+record(stringin, "$(P)PRESSURE:CELL2:TS") {
+    field(DESC, "Cell 2 Pressure timestamp")
+	info(archive, "VAL")
+}
