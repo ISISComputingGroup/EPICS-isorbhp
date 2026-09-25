@@ -13,6 +13,9 @@ IOCS = [
         "name": DEVICE_PREFIX,
         "directory": get_default_ioc_dir("ISORBHP"),
         "emulator": "isorbhp",
+        "macros":{
+            "HOST": "localhost",
+        },
     },
 ]
 
